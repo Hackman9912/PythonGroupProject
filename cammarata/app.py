@@ -22,12 +22,15 @@ class MainWindow(tk.Tk):
         pattern = re.compile(r'[a-z]')
         for package in packages:
             self.package_methods.update({package: [method for method in dir(package) if pattern.match(method)]})
-    
+
+        print(self.package_selected)
+
     def create_package_combobox(self, packages):
         return ttk.Combobox(self,
                             state='readonly',
                             textvariable=self.package_selected,
                             values=self.packages)
+
 
 if __name__ == "__main__":
     # which packages will be go into?
