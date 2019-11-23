@@ -37,9 +37,7 @@ class MainWindow(tk.Tk):
         help(f"{module}.{function}")
 
     def create_combobox(self, values=[]):
-        return ttk.Combobox(self,
-                            state='readonly',
-                            values=values)
+        return ttk.Combobox(self, state='readonly', values=values)
 
 if __name__ == "__main__":
     # add the module to the list as a string
