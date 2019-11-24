@@ -6,7 +6,7 @@
         {
             "label": "Execute Python",
             "type": "shell",
-            "command": "python3 ${file}",
+            "command": "python ${file}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -24,7 +24,7 @@
         {
             "label": "Execute Python Interactively",
             "type": "shell",
-            "command": "python3 -i ${file}",
+            "command": "python -i ${file}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

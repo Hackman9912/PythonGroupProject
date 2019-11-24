@@ -41,8 +41,11 @@ class MainWindow(tk.Tk):
     def get_function_definition(self, event):
         module = self.module_combobox.get()
         function = self.module_functions_combobox.get()
-        definition = pydoc.render_doc(f"{module}.{function}")
-        # put definition into a tk text
+        # don't forget to render the help text into something that isn't garbo to display in Tkinter
+        definition = pydoc.render_doc(f"{module}.{function}", renderer=pydoc.plaintext)
+        # you don't set a textbox, you delete and insert.
+        self.definitions_textbox.delete(1.0, tk.END)
+        self.definitions_textbox.insert(tk.END, definition)
 
     def create_combobox(self, values=[]):
         return ttk.Combobox(self, state='readonly', values=values)
