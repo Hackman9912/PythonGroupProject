@@ -8,7 +8,7 @@ from tkinter import ttk
 class MainWindow(tk.Tk):
     def __init__(self, modules):
         super().__init__()
-        self.title('Hackman Dictionary Search')
+        self.title('Cammarata Dictionary Search')
         self.geometry('500x400')
     
         self.modules = modules 
