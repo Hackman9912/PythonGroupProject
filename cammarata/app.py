@@ -1,4 +1,5 @@
 import os
+import pydoc
 import re
 import sys
 import tkinter as tk
@@ -26,6 +27,12 @@ class MainWindow(tk.Tk):
         self.module_functions_combobox.bind('<<ComboboxSelected>>', self.get_function_definition)
         self.module_functions_combobox.pack()
 
+        self.definitions_textbox = self.create_textbox()
+        self.definitions_textbox.pack()
+
+    def create_textbox(self):
+        return tk.Text(self)
+
     def populate_module_functions_combobox(self, event):
         # clear module_functions' combobox if a new module has been selected
         self.module_functions_combobox.set('')
@@ -34,7 +41,8 @@ class MainWindow(tk.Tk):
     def get_function_definition(self, event):
         module = self.module_combobox.get()
         function = self.module_functions_combobox.get()
-        help(f"{module}.{function}")
+        definition = pydoc.render_doc(f"{module}.{function}")
+        # put definition into a tk text
 
     def create_combobox(self, values=[]):
         return ttk.Combobox(self, state='readonly', values=values)
