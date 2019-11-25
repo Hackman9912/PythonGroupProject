@@ -1,5 +1,6 @@
 import os
 import sys
+import csv
 import re
 import sys
 from tkinter import Tk,Label, ttk, Button, Text, END
@@ -17,7 +18,7 @@ class Gui:
         self.label_2.grid(column=1, row=0)
 
         '''Combo Boxes'''
-        self.cb_1 = ttk.Combobox(self.master,values=("OS","Sys","re","tkinter"))
+        self.cb_1 = ttk.Combobox(self.master,values=("OS","Sys","Re","CSV"))
         self.cb_1.grid(column=0,row=1)
         self.cb_1.set("OS")
         self.cb_2 = ttk.Combobox(self.master,values=self.get_methods())
@@ -33,8 +34,12 @@ class Gui:
     def get_methods(self,module='os'):
         if module.lower() == "os":
             module = os
-        else:
+        elif module.lower() == "sys":
             module = sys
+        elif module.lower() == "re":
+            module = re
+        elif module.lower() == "csv":
+            module = csv
         module = dir(module)
         method_list = []
         pattern = re.compile(r'^([a-zA-Z]+)$')
