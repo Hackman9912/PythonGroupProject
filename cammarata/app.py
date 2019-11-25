@@ -1,7 +1,6 @@
-import os
+import importlib
 import pydoc
 import re
-import sys
 import tkinter as tk
 from tkinter import ttk
 
@@ -22,8 +21,9 @@ class MainWindow(tk.Tk):
         pattern = re.compile(r'[a-z]')
         self.module_functions = {}
         for module in self.modules:
+            module = importlib.import_module(module)
             # have to eval(module) as it's a string and not the actual module
-            self.module_functions[module] = [function for function in dir(eval(module)) if pattern.match(function)]
+            self.module_functions[module.__name__] = [function for function in dir(module) if pattern.match(function)]
         self.module_functions_combobox = self.create_combobox()
         # callback to get_function_definition when a function is selected
         self.module_functions_combobox.bind('<<ComboboxSelected>>', self.get_function_definition)
@@ -38,13 +38,16 @@ class MainWindow(tk.Tk):
     def populate_module_functions_combobox(self, event):
         # clear module_functions' combobox if a new module has been selected
         self.module_functions_combobox.set('')
+        print(self.module_functions.keys())
         self.module_functions_combobox['values'] = self.module_functions[self.module_combobox.get()]
 
     def get_function_definition(self, event):
         module = self.module_combobox.get()
         function = self.module_functions_combobox.get()
+
         # don't forget to render the help text into something that isn't garbo to display in Tkinter
         definition = pydoc.render_doc(f"{module}.{function}", renderer=pydoc.plaintext)
+
         # you don't set a textbox, you delete and insert.
         self.definitions_textbox.delete(1.0, tk.END)
         self.definitions_textbox.insert(tk.END, definition)
@@ -54,7 +57,7 @@ class MainWindow(tk.Tk):
 
 if __name__ == "__main__":
     # add the module to the list as a string
-    modules = ['os', 'sys', 're']
+    modules = ['os', 'sys', 're', 'zlib']
 
     main_window = MainWindow(modules)
     main_window.mainloop()
