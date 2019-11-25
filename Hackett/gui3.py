@@ -6,42 +6,53 @@ import os
 import sys
 import re
 import importlib
+import io
+import time
+from contextlib import redirect_stdout
+
 class MainMenu(tk.Tk):
     def __init__(self, master=None):
         tk.Tk.__init__(self, master)
         self.style = ttk.Style(self)
         self.style.theme_use('alt')
         self.title('Method definition')
-        self.geometry('800x400')
-        self.list1 = ['os', 'sys', 're']
+        self.geometry('800x425')
+        self.list1 = ['os', 'sys', 're', 'pprint']
         self.list2 = []
         self.os_dict = None
         self.inputbox()
-        self.getinputbox()
+        self.displayall = ttk.Button(text = "For libraries see terminal window", command = self.get_help)
+        self.displayall.grid(row = 0, column = 1, pady = (10,0))
         self.drop_menu1 = self.drop_menu(self.list1, 'Libraries', 0)
         self.drop_menu1.bind("<<ComboboxSelected>>", self.get_methods)
         self.drop_menu2 = self.drop_menu(self.list2, 'Methods', 2)
         self.drop_menu2.bind("<<ComboboxSelected>>", self.get_choice)
         self.textbox = self.gettext()
 
-    def updatelist(self):
-        input1 = self.inputbox.get()
-        imported_module = importlib.import_module(self.inputbox.get())
-        self.list1.append(input1)
-        print(self.list1)
-        self.drop_menu1.configure(values = self.list1)
-
-    def getinputbox(self):
-        self.inputbutton = ttk.Button(text = "Click to apply your module", command = self.updatelist)
-        self.inputbutton = ttk.Button(text = "Click to apply your module")
-        self.inputbutton.grid(row = 4, column = 2)
+    def get_help(self):
+        file = open('test.txt')
+        data = file.read()
+        self.textbox.insert(1.0, data)
 
     def inputbox(self):
         self.inputboxlabel = ttk.Label(text = "Enter a library to search: ")
         self.inputboxlabel.grid(row = 4, column = 0)
         self.inputbox = ttk.Entry(self)
         self.inputbox.grid(row = 4, column = 1)
+        self.getinputbox()
+        
 
+    def updatelist(self):
+        input1 = self.inputbox.get()
+        self.list1.append(input1)
+        print(self.list1)
+        self.drop_menu1.configure(values = self.list1)
+
+
+    def getinputbox(self):
+        self.inputbutton = ttk.Button(text = "Click to apply your module", command = self.updatelist)
+        self.inputbutton.grid(row = 4, column = 2)
+      
     def drop_menu(self, list1, var1, var2):
         self.comboExample = ttk.Combobox(self, values = list1, state = 'readonly', height = 10)
         self.comboExample.set(var1)
@@ -65,21 +76,16 @@ class MainMenu(tk.Tk):
     def get_methods(self, event):
         self.list2 = []
         self.libr = self.drop_menu1.get()
-        pattern = re.compile(r'[a-z]')
-        self.os_dict = dir(eval(self.libr))
-        for k in self.os_dict:
-            if pattern.match(k):
-                self.list2.append(k)
-        # if self.libr == 'os':
-        #     self.os_dict = os.__dict__
-        # elif self.libr == 'sys':
-        #     self.os_dict = sys.__dict__
-        # elif self.libr == 're':
-        #     self.os_dict = re.__dict__
-        # for k, v in self.os_dict.items():
-        #     if pattern.match(k):
-        #         self.list2.append(k)
-        self.drop_menu2.configure(values = self.list2)
+        try:
+            imported_module = importlib.import_module(self.libr)
+            pattern = re.compile(r'[a-z_]')
+            self.lib_dict = {}
+            self.lib_dict[self.libr] = [function for function in dir(imported_module) if pattern.match(function)]
+            self.drop_menu2.configure(values = self.lib_dict[self.libr])
+        except ModuleNotFoundError:
+            self.textbox.destroy()
+            self.textbox = self.gettext()
+            self.textbox.insert('1.0', "That one will not work. Try another.")
 
 
 def main():
