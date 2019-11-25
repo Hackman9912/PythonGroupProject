@@ -14,6 +14,7 @@ class MainWindow(tk.Tk):
         self.modules = modules 
         # because we pass the module itself we need to get it's string name 
         self.module_combobox = self.create_combobox(self.modules)
+        # callback to populate_module_functions_combobox when a module is selected
         self.module_combobox.bind('<<ComboboxSelected>>', self.populate_module_functions_combobox)
         self.module_combobox.pack()
 
@@ -24,6 +25,7 @@ class MainWindow(tk.Tk):
             # have to eval(module) as it's a string and not the actual module
             self.module_functions[module] = [function for function in dir(eval(module)) if pattern.match(function)]
         self.module_functions_combobox = self.create_combobox()
+        # callback to get_function_definition when a function is selected
         self.module_functions_combobox.bind('<<ComboboxSelected>>', self.get_function_definition)
         self.module_functions_combobox.pack()
 
