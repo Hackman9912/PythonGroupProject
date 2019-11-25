@@ -52,7 +52,7 @@ class MainWindow(tk.Tk):
 
 if __name__ == "__main__":
     # add the module to the list as a string
-    modules = ['os', 'sys']
+    modules = ['os', 'sys', 're']
 
     main_window = MainWindow(modules)
     main_window.mainloop()
