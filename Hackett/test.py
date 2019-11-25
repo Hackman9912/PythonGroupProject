@@ -1,14 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext as tkst
+import pydoc
 import os
 import sys
 import re
 class MainMenu(tk.Tk):
     def __init__(self, list1, master=None):
         tk.Tk.__init__(self, master)
-        self.geometry('800x400')
+        self.style = ttk.Style(self)
+        self.style.theme_use('clam')
         self.title('Method definition')
+        self.geometry('800x400')
         self.list2 = []
         self.os_dict = None 
         self.drop_menu1 = self.drop_menu(list1, 'Libraries', 0)
@@ -34,7 +37,8 @@ class MainMenu(tk.Tk):
         if self.libr != 'Libraries' and self.meth != 'Methods':
             self.textbox.destroy()
             self.textbox = self.gettext()
-            self.textbox.insert('1.0', self.os_dict[self.meth])
+            definition = pydoc.render_doc(f'{self.libr}.{self.meth}', renderer = pydoc.plaintext)
+            self.textbox.insert('1.0', definition)
 
     def get_methods(self, event):
         self.list2 = []
