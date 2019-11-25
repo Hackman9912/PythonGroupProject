@@ -13,6 +13,7 @@ class MainWindow(tk.Tk):
         self.modules = modules 
         # because we pass the module itself we need to get it's string name 
         self.module_combobox = self.create_combobox(self.modules)
+        self.module_combobox.set('Modules')
         # callback to populate_module_functions_combobox when a module is selected
         self.module_combobox.bind('<<ComboboxSelected>>', self.populate_module_functions_combobox)
         self.module_combobox.pack()
@@ -21,12 +22,14 @@ class MainWindow(tk.Tk):
         pattern = re.compile(r'[a-z]')
         self.module_functions = {}
         for module in self.modules:
-            module = importlib.import_module(module)
+            imported_module = importlib.import_module(module)
             # have to eval(module) as it's a string and not the actual module
-            self.module_functions[module.__name__] = [function for function in dir(module) if pattern.match(function)]
+            self.module_functions[module] = [function for function in dir(imported_module) if pattern.match(function)]
         self.module_functions_combobox = self.create_combobox()
-        # callback to get_function_definition when a function is selected
-        self.module_functions_combobox.bind('<<ComboboxSelected>>', self.get_function_definition)
+        self.module_functions_combobox.set('Functions')
+
+        # callback to populate_function_definition when a function is selected
+        self.module_functions_combobox.bind('<<ComboboxSelected>>', self.populate_function_definition)
         self.module_functions_combobox.pack()
 
         self.definitions_textbox = self.create_textbox()
@@ -37,11 +40,10 @@ class MainWindow(tk.Tk):
 
     def populate_module_functions_combobox(self, event):
         # clear module_functions' combobox if a new module has been selected
-        self.module_functions_combobox.set('')
-        print(self.module_functions.keys())
+        self.module_functions_combobox.set('Functions')
         self.module_functions_combobox['values'] = self.module_functions[self.module_combobox.get()]
 
-    def get_function_definition(self, event):
+    def populate_function_definition(self, event):
         module = self.module_combobox.get()
         function = self.module_functions_combobox.get()
 
