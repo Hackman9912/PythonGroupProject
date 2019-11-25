@@ -16,8 +16,8 @@ class MainWindow(tk.Tk):
         self.modules = modules 
         self.functions = {}
         # generate functions for a modules {'module1': ['function1','function2','...']}
-        # functions will only start with a lowercase a-z.
-        pattern = re.compile(r'[a-zA-Z]')
+        # regex for determining what is a function
+        pattern = re.compile(r'[a-z]')
         for module in self.modules:
             # dynamically import the module and dir it to grab the functions
             imported_module = importlib.import_module(module)
