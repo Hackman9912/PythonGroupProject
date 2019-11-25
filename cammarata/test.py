@@ -10,3 +10,5 @@ output = sys.stdout.getvalue()
 sys.stdout = stdout
 
 print('hi')
+print(output)
+print('bye')
