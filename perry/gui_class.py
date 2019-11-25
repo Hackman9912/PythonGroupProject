@@ -37,11 +37,12 @@ class Gui:
             module = sys
         module = dir(module)
         method_list = []
-        pattern = re.compile(r'^([a-z]+)')
+        pattern = re.compile(r'^([a-zA-Z]+)$')
         for method in module:
             matches = pattern.findall(method)
             for match in matches:
-                method_list.append(match)
+                if match == method:
+                    method_list.append(match)
         return " ".join(method_list)
 
     '''Function used to make combobox of methods'''
@@ -52,13 +53,13 @@ class Gui:
 
     def method_def(self):
         help_list = []
-        help_list.append(help(f'{self.cb_1.get().lower()}.{self.cb_2.get().lower()}'))
+        help_list.append(help(f'{self.cb_1.get().lower()}.{self.cb_2.get()}'))
         return ''.join(help_list)
 
     def display_method(self):
         file = open('test.txt','w+')
         sys.stdout = file
-        help(f'{self.cb_1.get().lower()}.{self.cb_2.get().lower()}')
+        help(f'{self.cb_1.get().lower()}.{self.cb_2.get()}')
         sys.stdout = sys.__stdout__
         file.close()
         file = open('test.txt')
