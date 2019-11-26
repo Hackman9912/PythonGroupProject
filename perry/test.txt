@@ -1,24 +1,53 @@
-Help on built-in function callstats in sys:
+Help on class AsyncFunctionDef in _ast:
 
-sys.callstats = callstats()
-    Return a tuple of function call statistics.
-    
-    A tuple is returned only if CALL_PROFILE was defined when Python was
-    built.  Otherwise, this returns None.
-    
-    When enabled, this function returns detailed, implementation-specific
-    details about the number of function calls executed. The return value
-    is a 11-tuple where the entries in the tuple are counts of:
-    0. all function calls
-    1. calls to PyFunction_Type objects
-    2. PyFunction calls that do not create an argument tuple
-    3. PyFunction calls that do not create an argument tuple
-       and bypass PyEval_EvalCodeEx()
-    4. PyMethod calls
-    5. PyMethod calls on bound methods
-    6. PyType calls
-    7. PyCFunction calls
-    8. generator calls
-    9. All other calls
-    10. Number of stack pops performed by call_function()
+_ast.AsyncFunctionDef = class AsyncFunctionDef(stmt)
+ |  Method resolution order:
+ |      AsyncFunctionDef
+ |      stmt
+ |      AST
+ |      builtins.object
+ |  
+ |  Data and other attributes defined here:
+ |  
+ |  _fields = ('name', 'args', 'body', 'decorator_list', 'returns', 'type_...
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from stmt:
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes inherited from stmt:
+ |  
+ |  _attributes = ('lineno', 'col_offset', 'end_lineno', 'end_col_offset')
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from AST:
+ |  
+ |  __delattr__(self, name, /)
+ |      Implement delattr(self, name).
+ |  
+ |  __getattribute__(self, name, /)
+ |      Return getattr(self, name).
+ |  
+ |  __init__(self, /, *args, **kwargs)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |  
+ |  __reduce__(...)
+ |      Helper for pickle.
+ |  
+ |  __setattr__(self, name, value, /)
+ |      Implement setattr(self, name, value).
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods inherited from AST:
+ |  
+ |  __new__(*args, **kwargs) from builtins.type
+ |      Create and return a new object.  See help(type) for accurate signature.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from AST:
+ |  
+ |  __dict__
 
